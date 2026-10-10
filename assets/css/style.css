@@ -47,10 +47,6 @@ h3{font-size:1.4rem;font-weight:700}
 .hero__in>*{min-width:0}
 .hero__in{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
 .hero__actions{display:flex;flex-wrap:wrap;gap:14px}
-.hero__stats{display:flex;flex-wrap:wrap;gap:20px 36px;margin-top:44px;padding-top:26px;border-top:1px solid var(--line)}
-.hero__stats li{min-width:0}
-.hero__stats strong{display:block;font-family:var(--fh);font-size:1.6rem;color:var(--y);text-transform:uppercase}
-.hero__stats span{font-size:.85rem;color:var(--mut)}
 .hero__visual{position:relative}
 .badge{position:absolute;z-index:5;left:-24px;bottom:30px;background:var(--y);color:#111;padding:14px 22px;border-radius:10px;font-family:var(--fh);text-transform:uppercase;line-height:1.1;box-shadow:0 14px 40px rgba(0,0,0,.5)}
 .badge span{display:block;font-size:.85rem;letter-spacing:.12em}
@@ -169,7 +165,6 @@ details p{color:var(--mut);padding-bottom:18px}
 @media (max-width:560px){
   .cards,.steps,.gallery{grid-template-columns:1fr}
   .hero{padding:50px 0 60px}
-  .hero__stats{gap:20px}
   .form{padding:20px}
   .form__row{grid-template-columns:1fr}
 }
