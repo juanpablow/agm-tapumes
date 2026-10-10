@@ -128,9 +128,20 @@ details p{color:var(--mut);padding-bottom:18px}
 .form__row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .form small{color:var(--mut);text-align:center;font-size:.78rem}
 
-.footer{padding:40px 0;border-top:1px solid var(--line)}
-.footer__in{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:.85rem}
-.footer__logo{height:76px;width:auto}
+.footer{padding:60px 0 28px;border-top:1px solid var(--line);background:var(--bg2)}
+.footer__grid{display:grid;grid-template-columns:1.4fr 1fr .8fr;gap:48px}
+.footer__grid>*{min-width:0}
+.footer__logo{height:84px;width:auto;margin-bottom:14px}
+.footer__brand p{color:var(--mut);font-size:.92rem;max-width:340px}
+.footer h3{font-size:1.15rem;color:var(--y);letter-spacing:.1em;margin-bottom:16px}
+.contact{display:grid;gap:14px}
+.contact li{display:flex;align-items:center;gap:12px}
+.contact svg{flex:none;width:36px;height:36px;padding:8px;border-radius:10px;background:rgba(255,196,0,.1);fill:none;stroke:var(--y);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact svg .dot{fill:var(--y);stroke:none}
+.contact a{overflow-wrap:anywhere}
+.contact a:hover,.footer__links a:hover{color:var(--y)}
+.footer__links{display:grid;gap:10px;color:var(--mut)}
+.footer__copy{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
 
 .wpp{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:.2s}
 .wpp:hover{transform:scale(1.08)}
@@ -148,6 +159,7 @@ details p{color:var(--mut);padding-bottom:18px}
   .section{padding:70px 0}
   .burger{display:block}
   .header__cta{display:none}
+  .footer__grid{grid-template-columns:1fr;gap:36px}
   .brand img{height:60px}
   .header__in{height:76px}
   .nav{position:absolute;top:76px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);display:none;margin:0}
