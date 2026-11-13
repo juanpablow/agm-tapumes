@@ -1,6 +1,17 @@
 // TODO: replace with the real WhatsApp number (country code + area code + number, digits only)
 const WHATSAPP_NUMBER = "5511942138960";
 
+const QUOTE_EMAIL = "comercial@agmtapumes.com.br";
+
+const track = (name, params = {}) => {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: name, ...params });
+    if (typeof window.gtag === "function") window.gtag("event", name, params);
+    if (typeof window.fbq === "function") window.fbq("trackCustom", name, params);
+  } catch (_) {}
+};
+
 const wppLink = (msg) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
@@ -8,6 +19,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
 document.getElementById("wpp").href = wppLink(
   "Olá! Gostaria de um orçamento de tapumes metálicos.",
 );
+
+document.getElementById("wpp").addEventListener("click", () => {
+  track("whatsapp_float_click");
+});
 
 const nav = document.getElementById("nav");
 const burger = document.getElementById("burger");
@@ -69,13 +84,21 @@ const form = document.getElementById("form");
   });
 });
 
+let formStarted = false;
+form.addEventListener("focusin", () => {
+  if (formStarted) return;
+  formStarted = true;
+  track("form_start");
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const f = e.target;
 
   const nome = cleanName(f.elements.nome.value);
   const fone = cleanPhone(f.elements.telefone.value);
-  const cidade = cleanCity(f.elements.cidade.value);
+  const cidadeRaw = f.elements.cidade.value.trim();
+  const cidade = cleanCity(cidadeRaw);
   const metragemRaw = f.elements.metragem.value.trim();
   const alturaRaw = f.elements.altura.value.trim();
   const metragem = cleanNumber(metragemRaw, 100000);
@@ -87,7 +110,7 @@ form.addEventListener("submit", (e) => {
   const checks = {
     nome: nome.length >= 2,
     telefone: validPhone(fone),
-    cidade: cidade.length >= 2,
+    cidade: !cidadeRaw || cidade.length >= 2,
     metragem: !metragemRaw || metragem !== null,
     altura: !alturaRaw || altura !== null,
   };
@@ -98,6 +121,7 @@ form.addEventListener("submit", (e) => {
     if (!valid) ok = false;
   });
   if (!ok) {
+    track("form_invalid");
     f.querySelector(".err").focus();
     return;
   }
@@ -106,11 +130,31 @@ form.addEventListener("submit", (e) => {
     "Olá! Gostaria de um orçamento de tapumes metálicos.",
     `Nome: ${nome}`,
     `WhatsApp: ${formatPhone(fone)}`,
-    `Cidade da obra: ${cidade}`,
+    `Cidade da obra: ${cidade || "a definir"}`,
     `Metragem linear: ${metragem ? fmtNum(metragem) + " m" : "a definir"}`,
     `Altura: ${altura ? fmtNum(altura) + " m" : "a definir"}`,
     `Tipo de projeto: ${tipo}`,
   ].join("\n");
+
+  track("generate_lead", { tipo, has_size: Boolean(metragem) });
+
+  fetch(`https://formsubmit.co/ajax/${QUOTE_EMAIL}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      _subject: `Novo orçamento de tapume - ${nome}`,
+      _template: "table",
+      _captcha: "false",
+      Nome: nome,
+      WhatsApp: formatPhone(fone),
+      "Cidade da obra": cidade || "a definir",
+      "Metragem linear": metragem ? fmtNum(metragem) + " m" : "a definir",
+      Altura: altura ? fmtNum(altura) + " m" : "a definir",
+      "Tipo de projeto": tipo,
+    }),
+    keepalive: true,
+  }).catch(() => {});
+
   window.open(wppLink(msg), "_blank", "noopener");
 });
 
