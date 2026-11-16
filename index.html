@@ -3,6 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtmConsent() {
+        dataLayer.push(arguments);
+      }
+      function consentState(granted) {
+        var v = granted ? "granted" : "denied";
+        return {
+          ad_storage: v,
+          ad_user_data: v,
+          ad_personalization: v,
+          analytics_storage: v,
+        };
+      }
+      function setConsent(granted) {
+        gtmConsent("consent", "update", consentState(granted));
+        try {
+          localStorage.setItem("agm_cookie_consent", granted ? "granted" : "denied");
+        } catch (_) {}
+      }
+      gtmConsent("consent", "default", consentState(false));
+      try {
+        if (localStorage.getItem("agm_cookie_consent") === "granted")
+          gtmConsent("consent", "update", consentState(true));
+      } catch (_) {}
+    </script>
+    <script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
@@ -448,7 +474,7 @@
       </ul>
     </div>
   </div>
-  <div class="container footer__copy">&copy; <span id="year"></span> AGM Tapumes Metálicos. Todos os direitos reservados.</div>
+  <div class="container footer__copy">&copy; <span id="year"></span> AGM Tapumes Metálicos. Todos os direitos reservados. <button type="button" class="cookie__link" id="cookie-prefs">Preferências de cookies</button></div>
 </footer>
 
     <a
@@ -465,6 +491,18 @@
         />
       </svg>
     </a>
+
+    <div class="cookie" id="cookie" role="dialog" aria-label="Aviso de cookies" hidden>
+      <p>
+        Usamos cookies para medir o desempenho do site e de nossos anúncios.
+        Você pode aceitar ou recusar; o site funciona normalmente nos dois
+        casos.
+      </p>
+      <div class="cookie__actions">
+        <button type="button" class="btn btn--sm" id="cookie-accept">Aceitar</button>
+        <button type="button" class="btn btn--sm btn--ghost" id="cookie-reject">Recusar</button>
+      </div>
+    </div>
 
     <script src="assets/js/main.js"></script>
   </body>

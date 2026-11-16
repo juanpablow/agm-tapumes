@@ -158,6 +158,28 @@ form.addEventListener("submit", (e) => {
   window.open(wppLink(msg), "_blank", "noopener");
 });
 
+const cookieBox = document.getElementById("cookie");
+const showCookie = () => {
+  cookieBox.hidden = false;
+};
+const answerCookie = (granted) => {
+  setConsent(granted);
+  cookieBox.hidden = true;
+  track(granted ? "cookie_accept" : "cookie_reject");
+};
+try {
+  if (!localStorage.getItem("agm_cookie_consent")) showCookie();
+} catch (_) {
+  showCookie();
+}
+document
+  .getElementById("cookie-accept")
+  .addEventListener("click", () => answerCookie(true));
+document
+  .getElementById("cookie-reject")
+  .addEventListener("click", () => answerCookie(false));
+document.getElementById("cookie-prefs").addEventListener("click", showCookie);
+
 const io = new IntersectionObserver(
   (es) =>
     es.forEach((x) => {
