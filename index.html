@@ -492,15 +492,24 @@
       </svg>
     </a>
 
-    <div class="cookie" id="cookie" role="dialog" aria-label="Aviso de cookies" hidden>
-      <p>
-        Usamos cookies para medir o desempenho do site e de nossos anúncios.
-        Você pode aceitar ou recusar; o site funciona normalmente nos dois
-        casos.
-      </p>
-      <div class="cookie__actions">
-        <button type="button" class="btn btn--sm" id="cookie-accept">Aceitar</button>
-        <button type="button" class="btn btn--sm btn--ghost" id="cookie-reject">Recusar</button>
+    <div class="cookie" id="cookie" hidden>
+      <div
+        class="cookie__box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cookie-title"
+      >
+        <h2 id="cookie-title">Sua privacidade</h2>
+        <p>
+          Usamos cookies para medir o desempenho do site e de nossos anúncios.
+          Você escolhe se aceita ou recusa, e o site funciona normalmente nos
+          dois casos. Você pode mudar de ideia a qualquer momento em
+          "Preferências de cookies", no rodapé.
+        </p>
+        <div class="cookie__actions">
+          <button type="button" class="btn" id="cookie-reject">Recusar</button>
+          <button type="button" class="btn" id="cookie-accept">Aceitar</button>
+        </div>
       </div>
     </div>
 

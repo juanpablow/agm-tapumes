@@ -161,6 +161,7 @@ form.addEventListener("submit", (e) => {
 const cookieBox = document.getElementById("cookie");
 const showCookie = () => {
   cookieBox.hidden = false;
+  document.getElementById("cookie-reject").focus();
 };
 const answerCookie = (granted) => {
   setConsent(granted);
@@ -179,6 +180,12 @@ document
   .getElementById("cookie-reject")
   .addEventListener("click", () => answerCookie(false));
 document.getElementById("cookie-prefs").addEventListener("click", showCookie);
+cookieBox.addEventListener("click", (e) => {
+  if (e.target === cookieBox) cookieBox.hidden = true;
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") cookieBox.hidden = true;
+});
 
 const io = new IntersectionObserver(
   (es) =>
