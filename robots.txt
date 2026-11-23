@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://agmtapumes.com.br/sitemap.xml
